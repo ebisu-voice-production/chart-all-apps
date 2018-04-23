@@ -1,0 +1,22 @@
+{
+  "name": "chart-all-apps",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "draw-sample": "babel-node src/sample-chart.js"
+  },
+  "dependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "recharts": "^1.0.0-beta.10"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-react": "^6.24.1"
+  },
+  "babel": {
+    "presets": ["react"],
+    "plugins": ["transform-es2015-modules-commonjs"]
+  }
+}

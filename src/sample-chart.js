@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
+import fs from 'fs';
 
 const data = [
   { name: 'A', uv: 900, pv: 2400 },
@@ -27,4 +28,4 @@ const Sample = () => (
 const rendered = ReactDOMServer.renderToString(<Sample />);
 const chart = rendered.match(/<svg.+<\/svg>/)[0];
 
-console.log(chart);
+fs.writeFileSync('sample-chart.svg', chart);

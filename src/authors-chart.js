@@ -20,7 +20,7 @@ const main = async () => {
   const rendered = ReactDOMServer.renderToString(<AuthorsChart />);
   const chart = rendered.match(/<svg.+<\/svg>/)[0];
 
-  fs.writeFileSync('authors-chart.svg', chart);
+  fs.writeFileSync('./outputs/authors-chart.svg', chart);
 };
 
 main();

@@ -12,7 +12,8 @@ const fetch = async date => {
 
 const countAuthors = data => {
   const counts = {};
-  data.forEach(({ author }) => {
+  data.forEach(({ author: tmp }) => {
+    const author = tmp || 'unknowns';
     counts[author] = (counts[author] || 0) + 1;
   });
   return counts;
@@ -29,16 +30,24 @@ export default async () => {
     const result = await fetch(item.date);
     if (result) {
       const countedAuthors = countAuthors(result);
-      authors = [...authors, ...Object.keys(countedAuthors).map(a => a || 'unknowns' )].filter((m, i, a) => a.indexOf(m) === i);
+      authors = [...authors, ...Object.keys(countedAuthors)].filter((m, i, a) => a.indexOf(m) === i);
+      const { date } = item;
       return {
-        ...item,
+        date: moment(date).format('MM/DD'),
         ...countedAuthors,
       };
     }
     return null;
   }));
+  const filtered = list.filter(i => i);
+  const reduced = filtered.reduce((a, b, i) => {
+    if (i % 7 === 0 || filtered.length === i + 1) {
+      return [...a, b];
+    }
+    return a;
+  }, []);
   return {
-    data: list.filter(i => i),
+    data: reduced,
     authors,
   };
 };

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "draw-sample": "babel-node src/sample-chart.js",
     "draw-authors": "babel-node src/authors-chart.js"
   },
   "dependencies": {

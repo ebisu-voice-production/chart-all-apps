@@ -18,7 +18,7 @@ const main = async () => {
     >
       <XAxis dataKey="date" />
       <YAxis>
-        <Label value="アプリ数" offset={15} position="top" />
+        <Label value="Released Apps" offset={15} position="top" />
       </YAxis>
       <CartesianGrid stroke="#eee" />
       <Legend

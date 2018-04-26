@@ -15,6 +15,7 @@ const main = async () => {
       height={600}
       data={fetched.data}
       margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
+      style={{ margin: '0 auto' }}
     >
       <XAxis dataKey="date" />
       <YAxis>
@@ -45,7 +46,12 @@ const main = async () => {
 
   const rendered = ReactDOMServer.renderToString(<AuthorsChart />);
   const html = content => `<html><head><meta charset="utf-8"></head><body>${content}</body></html>`;
-  fs.writeFileSync('./outputs/authors-chart.html', html(rendered));
+  fs.writeFileSync(
+    './outputs/authors-chart.html',
+    html(
+      `<div><h3 style="color: gray;text-align: center;">Google Assistant Apps in Japan</h3>${rendered}</div>`
+    )
+  );
 };
 
 main();

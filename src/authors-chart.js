@@ -19,8 +19,8 @@ const main = async () => {
 
   const rendered = ReactDOMServer.renderToString(<AuthorsChart />);
   const chart = rendered.match(/<svg.+<\/svg>/)[0];
-
-  fs.writeFileSync('./outputs/authors-chart.svg', chart);
+  const formatted = chart.replace('class="recharts-surface"', 'xmlns="http://www.w3.org/2000/svg"');
+  fs.writeFileSync('./outputs/authors-chart.svg', withXmlns);
 };
 
 main();

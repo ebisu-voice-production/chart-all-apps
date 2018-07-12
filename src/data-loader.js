@@ -12,10 +12,10 @@ const fetch = async date => {
 
 const countAuthors = data => {
   const counts = {};
-  data.forEach(({ author: tmp, devices }) => {
+  data.forEach(({ author: tmp, devices = [] }) => {
     const author = tmp || 'unknowns';
     const hasGoogleHome = devices.find(device => device === 'Google Home');
-    if (hasGoogleHome) {
+    if (hasGoogleHome || devices.length === 0) { // old data does not have 'devices' property
       counts[author] = (counts[author] || 0) + 1;
     }
   });

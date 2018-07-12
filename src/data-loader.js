@@ -12,9 +12,12 @@ const fetch = async date => {
 
 const countAuthors = data => {
   const counts = {};
-  data.forEach(({ author: tmp }) => {
+  data.forEach(({ author: tmp, devices }) => {
     const author = tmp || 'unknowns';
-    counts[author] = (counts[author] || 0) + 1;
+    const hasGoogleHome = devices.find(device => device === 'Google Home');
+    if (hasGoogleHome) {
+      counts[author] = (counts[author] || 0) + 1;
+    }
   });
   return counts;
 };

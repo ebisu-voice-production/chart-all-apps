@@ -1,5 +1,6 @@
 import request from 'request-promise-native';
 import moment from 'moment';
+import fs from 'fs';
 
 const fetch = async date => {
   try {
@@ -42,6 +43,10 @@ export default async () => {
     }
     return null;
   }));
+
+  // cache
+  fs.writeFileSync('./outputs/cache.json', JSON.stringify(list, null, 2));
+
   const filtered = list.filter(i => i);
   const reduced = filtered.reduce((a, b, i) => {
     if (i % 7 === 0 || filtered.length === i + 1) {

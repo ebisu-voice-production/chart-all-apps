@@ -24,10 +24,14 @@ const countAuthors = data => {
 };
 
 export default async () => {
-  const startDate = '2018-01-11';
-  const totalDays = moment().diff(startDate, 'day') + 1;
+  const cacheJson = fs.readFileSync('./outputs/cache.json');
+  const cache = cacheJson && JSON.parse(cacheJson);
+  const filteredCache = (cache && cache.filter(d => d)) || [];
+  const latestDate = filteredCache.length > 0 && filteredCache[filteredCache.length - 1].__date;
+  const startDate = latestDate || '2018-01-11';
+  const totalDays = moment().diff(startDate, 'day');
   const initList = Array.from(Array(totalDays).keys()).map(day => ({
-    date: moment(startDate).add(day, 'day').format('YYYY-MM-DD'),
+    date: moment(startDate).add(day + 1, 'day').format('YYYY-MM-DD'),
   }));
   let authors = [];
   const list = await Promise.all(initList.map(async item => {
@@ -37,6 +41,7 @@ export default async () => {
       authors = [...authors, ...Object.keys(countedAuthors)].filter((m, i, a) => a.indexOf(m) === i);
       const { date } = item;
       return {
+        __date: date,
         date: moment(date).format('MM/DD'),
         ...countedAuthors,
       };
@@ -44,11 +49,12 @@ export default async () => {
     return null;
   }));
 
-  // cache
-  fs.writeFileSync('./outputs/cache.json', JSON.stringify(list, null, 2));
-
   const filtered = list.filter(i => i);
-  const reduced = filtered.reduce((a, b, i) => {
+  const mergeList = [...filteredCache, ...filtered];
+  // cache
+  fs.writeFileSync('./outputs/cache.json', JSON.stringify(mergeList, null, 2));
+
+  const reduced = mergeList.map(({ __date, ...main }) => main).reduce((a, b, i) => {
     if (i % 7 === 0 || filtered.length === i + 1) {
       return [...a, b];
     }
